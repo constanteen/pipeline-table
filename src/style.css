@@ -41,6 +41,7 @@ thead th {
 
 tbody tr:nth-child(odd) {
     background-color: #fff;
+    position: relative;
 }
 
 tbody tr:nth-child(even) {
@@ -87,4 +88,49 @@ tbody tr:nth-child(even) {
 .btn-group label {
     display: inline-block;
     margin: 0.6em 1em;
+}
+
+.loader {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.loader:after {
+    content: " ";
+    display: block;
+    width: 15px;
+    height: 15px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 2px solid #000;
+    border-color: #000 transparent #000 transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loader {
+    position: absolute;
+    right: 10px;
+}
+
+.t_caption {
+    position: relative;
+}
+
+.show_loader {
+    display: inline-block;
+}
+
+.hide_loader {
+    display: none;
 }
