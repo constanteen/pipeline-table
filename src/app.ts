@@ -26,7 +26,7 @@ const showLoader = (state: boolean) => {
 
 const fetchData = async (page = 1) => {
   showLoader(true);
-  const url = page === 1 ? ENDPOINT_URL : `${ENDPOINT_URL}&page=${page}`;
+  const url = `${ENDPOINT_URL}&page=${page}`;
   const users = <UserResults[]>[];
   try {
     const response = await fetch(url);
