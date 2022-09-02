@@ -4,7 +4,7 @@ const loader = document.querySelector('.loader')!;
 
 const prevBtn = document.querySelector("[data-prevbtn]")!;
 const nextBtn = document.querySelector("[data-nextbtn]")!;
-const pageView = document.querySelector("[data-pageview]")!;
+const pageViewText = document.querySelector("[data-pageview]")!;
 const tbody = document.querySelector("tbody")!;
 
 interface UserResults {
@@ -78,6 +78,7 @@ const getNext = async () => {
     savedPages += 2;
     pageInView++;
     showLoader(false);
+    pageViewText.textContent = `Showing Page ${pageInView}`;
     return;
   }
   tbody.innerHTML = "";
@@ -86,6 +87,7 @@ const getNext = async () => {
   const newData = allUsersData.slice(startPointer, pointer);
   showTableData(newData);
   pageInView++;
+  pageViewText.textContent = `Showing Page ${pageInView}`;
   prevBtn.removeAttribute("disabled");
 }
 
@@ -96,6 +98,7 @@ const getPrevious = () => {
   const newData = allUsersData.slice(startPointer, pointer);
   showTableData(newData);
   pageInView--;
+  pageViewText.textContent = `Showing Page ${pageInView}`;
   if (pageInView === 1) prevBtn.setAttribute("disabled", "true");
 }
 
@@ -110,7 +113,7 @@ const startApp = async () => {
   }
 
   prevBtn.setAttribute("disabled", "true");
-
+  pageViewText.textContent = `Showing Page ${pageInView}`;
   nextBtn.addEventListener("click", getNext);
   prevBtn.addEventListener("click", getPrevious);
 };
