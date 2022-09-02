@@ -15,8 +15,6 @@ interface UserResults {
 }
 
 let pageInView = 1;
-let pointer = 5;
-let savedPages = 2;
 
 let allUsersData = <UserResults[]>[];
 
@@ -68,35 +66,20 @@ const showTableData = (data: UserResults[]) => {
 }
 
 const getNext = async () => {
-  if (pageInView % 2 === 0 && pageInView + 1 > savedPages) {
-    showLoader(true);
-    const data = await fetchData(savedPages + 1);
-    tbody.innerHTML = "";
-    const newData = data?.slice(0, 5);
-    if (newData) showTableData(newData);
-    pointer += 5;
-    savedPages += 2;
-    pageInView++;
-    showLoader(false);
-    pageViewText.textContent = `Showing Page ${pageInView}`;
-    return;
-  }
+  const data = await fetchData(pageInView + 1);
   tbody.innerHTML = "";
-  const startPointer = pointer;
-  pointer += 5;
-  const newData = allUsersData.slice(startPointer, pointer);
-  showTableData(newData);
+  const newData = data?.slice(0, 5);
+  if (newData) showTableData(newData);
   pageInView++;
   pageViewText.textContent = `Showing Page ${pageInView}`;
   prevBtn.removeAttribute("disabled");
 }
 
-const getPrevious = () => {
+const getPrevious = async () => {
+  const data = await fetchData(pageInView - 1);
   tbody.innerHTML = "";
-  pointer -= 5;
-  const startPointer = pointer - 5;
-  const newData = allUsersData.slice(startPointer, pointer);
-  showTableData(newData);
+  const newData = data?.slice(0, 5);
+  if (newData) showTableData(newData);
   pageInView--;
   pageViewText.textContent = `Showing Page ${pageInView}`;
   if (pageInView === 1) prevBtn.setAttribute("disabled", "true");
