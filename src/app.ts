@@ -1,7 +1,5 @@
 const ENDPOINT_URL = 'https://randomapi.com/api/8csrgnjw?key=LEIX-GF3O-AG7I-6J84';
-
 const loader = document.querySelector('.loader')!;
-
 const prevBtn = document.querySelector("[data-prevbtn]")!;
 const nextBtn = document.querySelector("[data-nextbtn]")!;
 const pageViewText = document.querySelector("[data-pageview]")!;
@@ -42,7 +40,8 @@ const fetchData = async (page = 1) => {
   }
 }
 
-const showTableData = (data: UserResults[]) => {
+const updateTable = (data: UserResults[]) => {
+  tbody.innerHTML = "";
   data.forEach(element => {
     const row = document.createElement("tr");
     row.setAttribute("data-entryid", element.id);
@@ -60,6 +59,7 @@ const showTableData = (data: UserResults[]) => {
 
     tbody.appendChild(row);
   });
+  pageViewText.textContent = `Showing Page ${pageInView}`;
 }
 
 const getNext = async () => {
@@ -67,10 +67,10 @@ const getNext = async () => {
   const data = await fetchData(pageInView);
   const newData = data?.slice(0, 5);
   if (newData) {
-    tbody.innerHTML = "";
-    showTableData(newData);
-    pageViewText.textContent = `Showing Page ${pageInView}`;
-    prevBtn.removeAttribute("disabled");
+    updateTable(newData);
+    if (pageInView === 2) {
+      prevBtn.removeAttribute("disabled");
+    }
   }
 }
 
@@ -79,9 +79,7 @@ const getPrevious = async () => {
   const data = await fetchData(pageInView);
   const newData = data?.slice(0, 5);
   if (newData) {
-    tbody.innerHTML = "";
-    showTableData(newData);
-    pageViewText.textContent = `Showing Page ${pageInView}`;
+    updateTable(newData);
     if (pageInView === 1) prevBtn.setAttribute("disabled", "true");
   }
 }
@@ -94,8 +92,9 @@ const startApp = async () => {
 
 	const data = await fetchData();
   const newData = data?.slice(0, 5);
-  if (newData) showTableData(newData);
-  else {
+  if (newData) {
+    updateTable(newData);
+  } else {
     const tr = document.createElement("tr");
     tr.textContent = "No results found";
     tbody.appendChild(tr);
