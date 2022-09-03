@@ -16,8 +16,6 @@ interface UserResults {
 
 let pageInView = 1;
 
-let allUsersData = <UserResults[]>[];
-
 const showLoader = (state: boolean) => {
 	state
 		? loader.classList.add('show_loader')
@@ -35,7 +33,6 @@ const fetchData = async (page = 1) => {
       if (result === "paging") break; // we don't need this data
       users.push(...data.results[0][result]);
     }
-    allUsersData.push(...users);
     return users;
   } catch (error) {
     console.error(error);
@@ -46,7 +43,7 @@ const fetchData = async (page = 1) => {
 }
 
 const showTableData = (data: UserResults[]) => {
-  data?.forEach(element => {
+  data.forEach(element => {
     const row = document.createElement("tr");
     row.setAttribute("data-entryid", element.id);
 
@@ -62,30 +59,39 @@ const showTableData = (data: UserResults[]) => {
     row.appendChild(ageCell);
 
     tbody.appendChild(row);
-  })
+  });
 }
 
 const getNext = async () => {
-  const data = await fetchData(pageInView + 1);
-  tbody.innerHTML = "";
-  const newData = data?.slice(0, 5);
-  if (newData) showTableData(newData);
   pageInView++;
-  pageViewText.textContent = `Showing Page ${pageInView}`;
-  prevBtn.removeAttribute("disabled");
+  const data = await fetchData(pageInView);
+  const newData = data?.slice(0, 5);
+  if (newData) {
+    tbody.innerHTML = "";
+    showTableData(newData);
+    pageViewText.textContent = `Showing Page ${pageInView}`;
+    prevBtn.removeAttribute("disabled");
+  }
 }
 
 const getPrevious = async () => {
-  const data = await fetchData(pageInView - 1);
-  tbody.innerHTML = "";
-  const newData = data?.slice(0, 5);
-  if (newData) showTableData(newData);
   pageInView--;
-  pageViewText.textContent = `Showing Page ${pageInView}`;
-  if (pageInView === 1) prevBtn.setAttribute("disabled", "true");
+  const data = await fetchData(pageInView);
+  const newData = data?.slice(0, 5);
+  if (newData) {
+    tbody.innerHTML = "";
+    showTableData(newData);
+    pageViewText.textContent = `Showing Page ${pageInView}`;
+    if (pageInView === 1) prevBtn.setAttribute("disabled", "true");
+  }
 }
 
 const startApp = async () => {
+  pageViewText.textContent = `Showing Page ${pageInView}`;
+  nextBtn.addEventListener("click", getNext);
+  prevBtn.addEventListener("click", getPrevious);
+  prevBtn.setAttribute("disabled", "true");
+
 	const data = await fetchData();
   const newData = data?.slice(0, 5);
   if (newData) showTableData(newData);
@@ -94,11 +100,6 @@ const startApp = async () => {
     tr.textContent = "No results found";
     tbody.appendChild(tr);
   }
-
-  prevBtn.setAttribute("disabled", "true");
-  pageViewText.textContent = `Showing Page ${pageInView}`;
-  nextBtn.addEventListener("click", getNext);
-  prevBtn.addEventListener("click", getPrevious);
 };
 
 document.addEventListener('DOMContentLoaded', startApp);
