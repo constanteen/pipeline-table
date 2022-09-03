@@ -68,7 +68,7 @@ const getNext = async () => {
   const newData = data?.slice(0, 5);
   if (newData) {
     updateTable(newData);
-    prevBtn.removeAttribute("disabled");
+    if (pageInView >= 2) prevBtn.removeAttribute("disabled");
   }
 }
 
