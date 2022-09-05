@@ -16,7 +16,7 @@ let pageInView = 1;
 
 const showLoader = (state: boolean) => {
 	state
-		? loader.classList.add('show_loader')
+		? loader.classList.replace('hide_loader', 'show_loader')
 		: loader.classList.replace('show_loader', 'hide_loader');
 }
 
@@ -64,7 +64,7 @@ const updateTable = (data: UserResults[]) => {
   pageViewText.textContent = `Showing Page ${pageInView}`;
 }
 
-const getNext = async () => {
+const getNextPage = async () => {
   pageInView++;
   const data = await fetchData(pageInView);
   if (data) {
@@ -74,7 +74,7 @@ const getNext = async () => {
   }
 }
 
-const getPrevious = async () => {
+const getPreviousPage = async () => {
   pageInView--;
   const data = await fetchData(pageInView);
   if (data) {
@@ -86,8 +86,8 @@ const getPrevious = async () => {
 
 const startApp = async () => {
   pageViewText.textContent = `Showing Page ${pageInView}`;
-  nextBtn.addEventListener("click", getNext);
-  prevBtn.addEventListener("click", getPrevious);
+  nextBtn.addEventListener("click", getNextPage);
+  prevBtn.addEventListener("click", getPreviousPage);
   prevBtn.setAttribute("disabled", "true");
 
 	const data = await fetchData();
