@@ -34,7 +34,9 @@ const fetchData = async (page = 1) => {
     return users;
   } catch (error) {
     console.error(error);
-    return null
+    const tr = document.createElement("tr");
+    tr.textContent = "No results found";
+    tbody.appendChild(tr);
   } finally {
     showLoader(false);
   }
@@ -65,8 +67,8 @@ const updateTable = (data: UserResults[]) => {
 const getNext = async () => {
   pageInView++;
   const data = await fetchData(pageInView);
-  const newData = data?.slice(0, 5);
-  if (newData) {
+  if (data) {
+    const newData = data?.slice(0, 5);
     updateTable(newData);
     if (pageInView >= 2) prevBtn.removeAttribute("disabled");
   }
@@ -75,8 +77,8 @@ const getNext = async () => {
 const getPrevious = async () => {
   pageInView--;
   const data = await fetchData(pageInView);
-  const newData = data?.slice(0, 5);
-  if (newData) {
+  if (data) {
+    const newData = data?.slice(0, 5);
     updateTable(newData);
     if (pageInView === 1) prevBtn.setAttribute("disabled", "true");
   }
@@ -89,13 +91,9 @@ const startApp = async () => {
   prevBtn.setAttribute("disabled", "true");
 
 	const data = await fetchData();
-  const newData = data?.slice(0, 5);
-  if (newData) {
+  if (data) {
+    const newData = data?.slice(0, 5);
     updateTable(newData);
-  } else {
-    const tr = document.createElement("tr");
-    tr.textContent = "No results found";
-    tbody.appendChild(tr);
   }
 };
 
