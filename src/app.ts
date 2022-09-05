@@ -1,5 +1,5 @@
-const ENDPOINT_URL = 'https://randomapi.com/api/8csrgnjw?key=LEIX-GF3O-AG7I-6J84';
-const loader = document.querySelector('.loader')!;
+const ENDPOINT_URL = "https://randomapi.com/api/8csrgnjw?key=LEIX-GF3O-AG7I-6J84";
+const loader = document.querySelector(".loader")!;
 const prevBtn = document.querySelector("[data-prevbtn]")!;
 const nextBtn = document.querySelector("[data-nextbtn]")!;
 const pageViewText = document.querySelector("[data-pageview]")!;
@@ -16,9 +16,9 @@ let pageInView = 1;
 
 const showLoader = (state: boolean) => {
 	state
-		? loader.classList.replace('hide_loader', 'show_loader')
-		: loader.classList.replace('show_loader', 'hide_loader');
-}
+		? loader.classList.replace("hide_loader", "show_loader")
+		: loader.classList.replace("show_loader", "hide_loader");
+};
 
 const fetchData = async (page = 1) => {
   showLoader(true);
@@ -40,11 +40,11 @@ const fetchData = async (page = 1) => {
   } finally {
     showLoader(false);
   }
-}
+};
 
 const updateTable = (data: UserResults[]) => {
   tbody.innerHTML = "";
-  data.forEach(element => {
+  data.forEach((element) => {
     const row = document.createElement("tr");
     row.setAttribute("data-entryid", element.id);
 
@@ -62,7 +62,7 @@ const updateTable = (data: UserResults[]) => {
     tbody.appendChild(row);
   });
   pageViewText.textContent = `Showing Page ${pageInView}`;
-}
+};
 
 const getNextPage = async () => {
   pageInView++;
@@ -72,7 +72,7 @@ const getNextPage = async () => {
     updateTable(newData);
     if (pageInView >= 2) prevBtn.removeAttribute("disabled");
   }
-}
+};
 
 const getPreviousPage = async () => {
   pageInView--;
@@ -82,7 +82,7 @@ const getPreviousPage = async () => {
     updateTable(newData);
     if (pageInView === 1) prevBtn.setAttribute("disabled", "true");
   }
-}
+};
 
 const startApp = async () => {
   pageViewText.textContent = `Showing Page ${pageInView}`;
@@ -97,4 +97,4 @@ const startApp = async () => {
   }
 };
 
-document.addEventListener('DOMContentLoaded', startApp);
+document.addEventListener("DOMContentLoaded", startApp);

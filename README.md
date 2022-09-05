@@ -1,5 +1,7 @@
 # Frontend Assessment
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c10c3b103e5a452fa9bef18fb24da5e5)](https://www.codacy.com/gh/constanteen/pipeline-table/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=constanteen/pipeline-table&amp;utm_campaign=Badge_Grade)
+
 Build and deploy a very simple frontend app for paginated data, that does the following
 
 1.  Fetches (randomised) data from `https://randomapi.com/api/8csrgnjw?key=LEIX-GF3O-AG7I-6J84` which can be paged by appending `&page=N` where N is the page you want to fetch. E.g appending `&page=1` retrieves the first page, while `&page=4` retrieves the 4th page.
